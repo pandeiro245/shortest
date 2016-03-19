@@ -8,7 +8,8 @@
 </head>
 <body>
   <%= link_to 'home', :root %>
-  (<%= Tweet.count %>tweets)
+  (<%= Tweet.count %>tweets
+  & <%= Word.count %>words)
 <hr>
 <%= yield %>
 

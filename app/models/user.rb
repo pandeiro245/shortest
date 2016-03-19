@@ -36,5 +36,12 @@ class User < ActiveRecord::Base
       user.save!
     end
   end
+
+  def self.sync_twitter_profile_image_url
+    User.where(twitter_profile_image_url: nil).each do |user|
+      user.twitter_profile_image_url = Tweet.client.user_timeline(user.twitter_id).first.user.profile_image_url
+      user.save!
+    end
+  end
 end
 

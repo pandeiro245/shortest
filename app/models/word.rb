@@ -11,15 +11,25 @@ class Word < ActiveRecord::Base
 
   def wp_img
     html = wikipedia || fetch_wikipedia
-    Nokogiri::HTML.parse(html).search('#mw-content-text img').first[:src]
+    return '' if html == ''
+    begin
+      Nokogiri::HTML.parse(html).search('#mw-content-text img').first[:src]
+    rescue
+      ''
+    end
   end
 
   def fetch_wikipedia
-    charset = nil
-    url = "https://en.wikipedia.org/wiki/#{title}"
-    html = open(url) do |f|
-      charset = f.charset
-      f.read
+    begin
+      charset = nil
+      url = "https://en.wikipedia.org/wiki/#{title}"
+      url = URI.escape(url)
+      html = open(url) do |f|
+        charset = f.charset
+        f.read
+      end
+    rescue
+      html = ''
     end
     self.wikipedia = html
     self.save!

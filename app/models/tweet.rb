@@ -34,6 +34,12 @@ class Tweet < ActiveRecord::Base
     tweets
   end
 
+  def self.sync_tweet user, tweet_id
+    tweet = self.client(user).status(tweet_id)
+    tweet = self.import(tweet)
+    tweet
+  end
+
   def self.import tweet
     user = User.find_or_create_by(
       email: "tw-#{tweet.user.id}@245cloud.com"
@@ -49,7 +55,9 @@ class Tweet < ActiveRecord::Base
     )
     tweet2.twitter_id = tweet.user.id
     tweet2.text = tweet.text
+    tweet2.in_reply_to_status_id = tweet.in_reply_to_status_id
     tweet2.save!
+    tweet2
   end
 
   def self.sync refresh=false
