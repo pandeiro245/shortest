@@ -12,8 +12,8 @@ class UsersController < ApplicationController
       )
       user.twitter_token = data[:credentials][:token]
       user.twitter_secret = data[:credentials][:secret]
-      user.twitter_profile_image_url = 
-        tweet.user.profile_image_url.to_s
+      #user.twitter_profile_image_url = 
+      #  tweet.user.profile_image_url.to_s
       user.save!
     end
     sign_in(user)
