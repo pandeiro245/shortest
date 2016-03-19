@@ -7,11 +7,9 @@ class UsersController < ApplicationController
     )
     if user.nil?
       user = User.new(
-        email: "fa-#{twitter_id}@245cloud.com",
+        email: "tw-#{twitter_id}@245cloud.com",
         twitter_id: twitter_id
       )
-      user.save!
-      user.email = "#{user.id}@245cloud.com"
       user.twitter_token = data[:credentials][:token]
       user.twitter_secret = data[:credentials][:secret]
       user.save!

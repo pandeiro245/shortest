@@ -11,20 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160319020838) do
+ActiveRecord::Schema.define(version: 20160319034341) do
+
+  create_table "tweets", force: :cascade do |t|
+    t.integer  "twitter_id",            limit: 8
+    t.string   "text"
+    t.string   "text_escaped"
+    t.integer  "in_reply_to_status_id", limit: 8
+    t.boolean  "mecabed",                         default: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+  end
 
   create_table "users", force: :cascade do |t|
-    t.integer  "twitter_id"
+    t.integer  "twitter_id",                   limit: 8
     t.string   "twitter_screen_name"
+    t.string   "twitter_profile_image_url"
     t.text     "twitter_profile_image_base64"
     t.string   "twitter_token"
     t.string   "twitter_secret"
-    t.string   "email",                        default: "", null: false
-    t.string   "encrypted_password",           default: "", null: false
+    t.string   "email",                                  default: "", null: false
+    t.string   "encrypted_password",                     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                default: 0,  null: false
+    t.integer  "sign_in_count",                          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"

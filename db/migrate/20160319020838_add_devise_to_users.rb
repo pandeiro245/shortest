@@ -2,8 +2,9 @@ class AddDeviseToUsers < ActiveRecord::Migration
   def self.up
     create_table(:users) do |t|
       ## Twiter
-      t.integer :twitter_id
+      t.integer :twitter_id, limit: 8
       t.string  :twitter_screen_name
+      t.string :twitter_profile_image_url
       t.text :twitter_profile_image_base64
 
       t.string  :twitter_token
