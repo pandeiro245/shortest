@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160319034341) do
+ActiveRecord::Schema.define(version: 20160319052221) do
+
+  create_table "knowledges", force: :cascade do |t|
+    t.integer  "word_id",    limit: 4
+    t.integer  "tweet_id",   limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "knowledges", ["tweet_id"], name: "index_knowledges_on_tweet_id", using: :btree
+  add_index "knowledges", ["word_id"], name: "index_knowledges_on_word_id", using: :btree
 
   create_table "tweets", force: :cascade do |t|
     t.integer  "twitter_id",            limit: 8
@@ -42,4 +52,11 @@ ActiveRecord::Schema.define(version: 20160319034341) do
     t.string   "last_sign_in_ip",              limit: 255
   end
 
+  create_table "words", force: :cascade do |t|
+    t.string   "title",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_foreign_key "knowledges", "words"
 end
