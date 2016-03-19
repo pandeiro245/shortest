@@ -1,5 +1,5 @@
 div
-  = link_to (image_tag tweet.user.twitter_profile_image_url), "/twitters/#{tweet.user.twitter_screen_name}?refresh=1"
+  = link_to (image_tag tweet.user.twitter_profile_image_url), "/twitters/#{tweet.user.twitter_screen_name}"
   = link_to 'Re: ', "/tweets/#{tweet.in_reply_to_status_id}" if tweet.in_reply_to_status_id
-  = tweet.text.gsub(/@([A-Za-z0-9_]*)/){|text_all| "<a href='/twitters/#{$1}?refresh=1'/>@#{$1}</a>"}.html_safe
+  = tweet.text.gsub(/@([A-Za-z0-9_]+)/){|text_all| "<a href='/twitters/#{$1}'/>@#{$1}</a>"}.html_safe
 

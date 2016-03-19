@@ -31,6 +31,11 @@ class Tweet < ActiveRecord::Base
     tweets.each do |tweet|
       self.import(tweet)
     end
+    user = User.find_or_create_by(
+      twitter_screen_name: screen_name
+    )
+    key = 'screen_name'
+    user.send("twitter_#{key}=", Tweet.client.user_timeline(key).first.user.send(key) )
     tweets
   end
 
