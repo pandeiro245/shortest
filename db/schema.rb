@@ -54,8 +54,9 @@ ActiveRecord::Schema.define(version: 20160319052221) do
 
   create_table "words", force: :cascade do |t|
     t.string   "title",      limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.text     "wikipedia",  limit: 16777215
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   add_foreign_key "knowledges", "words"

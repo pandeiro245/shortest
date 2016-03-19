@@ -49,3 +49,6 @@ gem 'slim-rails'
 gem 'dotenv-rails'
 
 #gem 'natto'
+
+gem 'nokogiri'
+
