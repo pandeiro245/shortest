@@ -40,8 +40,9 @@ class Tweet < ActiveRecord::Base
     tweet
   end
 
-  def self.sync_word user, title
-    tweets = self.client(user).search(title, result_type: 'popular')
+  def self.sync_word user, title, result_type = nil
+    result_typ ||= 'popular'
+    tweets = self.client(user).search(title, result_type: result_type)
     tweets.each do |tweet|
       self.import(tweet)
     end
@@ -63,6 +64,11 @@ class Tweet < ActiveRecord::Base
     )
     tweet2.twitter_id = tweet.user.id
     tweet2.text = tweet.text
+
+    tweet.text.scan(/@([A-Za-z0-9_]+)/){|text_all|
+      User.ts($1)
+    }
+
     tweet2.in_reply_to_status_id = tweet.in_reply_to_status_id
     tweet2.favorite_count = tweet.favorite_count
     tweet2.retweet_count= tweet.retweet_count

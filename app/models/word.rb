@@ -1,7 +1,12 @@
 require 'open-uri'
 class Word < ActiveRecord::Base
   def tweets
-    Tweet.where("text like ?", "%#{title}%").order('retweet_count desc, favorite_count desc')
+    res = Tweet.where("text like ?", "%#{title}%").order('retweet_count desc, favorite_count desc')
+    if res.blank?
+      Tweet.sync_word nil, title, 'recent'
+      res = Tweet.where("text like ?", "%#{title}%").order('retweet_count desc, favorite_count desc')
+    end
+    res
   end
 
   def wp
@@ -29,7 +34,17 @@ class Word < ActiveRecord::Base
         f.read
       end
     rescue
-      html = ''
+      begin
+        charset = nil
+        url = "https://ja.wikipedia.org/wiki/#{title}"
+        url = URI.escape(url)
+        html = open(url) do |f|
+          charset = f.charset
+          f.read
+        end
+      rescue
+        html = ''
+      end
     end
     self.wikipedia = html
     self.save!
