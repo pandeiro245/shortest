@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   attr_accessor :client
+  #has_many :tweets, class_name: 'Tweet', foreign_key: 'twitter_id' 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -14,7 +15,15 @@ class User < ActiveRecord::Base
   end
 
   def tweets
-    Tweet.new(self).home
+    Tweet.order('id desc').limit(30)
+  end
+
+  def sync_home
+    Tweet.sync_home(self)
+  end
+
+  def self.actives
+    User.where.not(twitter_token: nil)
   end
 end
 

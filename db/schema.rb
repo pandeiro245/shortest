@@ -15,34 +15,31 @@ ActiveRecord::Schema.define(version: 20160319034341) do
 
   create_table "tweets", force: :cascade do |t|
     t.integer  "twitter_id",            limit: 8
-    t.string   "text"
-    t.string   "text_escaped"
+    t.string   "text",                  limit: 255
+    t.string   "text_escaped",          limit: 255
     t.integer  "in_reply_to_status_id", limit: 8
-    t.boolean  "mecabed",                         default: false
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
+    t.boolean  "mecabed",                           default: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
   end
 
   create_table "users", force: :cascade do |t|
     t.integer  "twitter_id",                   limit: 8
-    t.string   "twitter_screen_name"
-    t.string   "twitter_profile_image_url"
-    t.text     "twitter_profile_image_base64"
-    t.string   "twitter_token"
-    t.string   "twitter_secret"
-    t.string   "email",                                  default: "", null: false
-    t.string   "encrypted_password",                     default: "", null: false
-    t.string   "reset_password_token"
+    t.string   "twitter_screen_name",          limit: 255
+    t.string   "twitter_profile_image_url",    limit: 255
+    t.text     "twitter_profile_image_base64", limit: 65535
+    t.string   "twitter_token",                limit: 255
+    t.string   "twitter_secret",               limit: 255
+    t.string   "email",                        limit: 255,   default: "", null: false
+    t.string   "encrypted_password",           limit: 255,   default: "", null: false
+    t.string   "reset_password_token",         limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                          default: 0,  null: false
+    t.integer  "sign_in_count",                limit: 4,     default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",           limit: 255
+    t.string   "last_sign_in_ip",              limit: 255
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end
