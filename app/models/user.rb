@@ -39,6 +39,17 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.ts twitter_screen_name
+    user = User.find_or_create_by(twitter_screen_name: twitter_screen_name)
+    %w(id profile_image_url).each do |key|
+      next if user.send("twitter_#{key}")
+      key2 = key == 'id' ? user.twitter_screen_name : user.twitter_id
+      user.send("twitter_#{key}=", Tweet.client.user_timeline(key2).first.user.send(key) )
+      user.save!
+    end
+    user
+  end
+
   def self.sync
     %w(id screen_name profile_image_url).each do |key|
       User.where("twitter_#{key}" => nil).each do |user|
