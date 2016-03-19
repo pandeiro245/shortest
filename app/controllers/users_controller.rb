@@ -10,12 +10,12 @@ class UsersController < ApplicationController
         email: "tw-#{twitter_id}@245cloud.com",
         twitter_id: twitter_id
       )
-      user.twitter_token = data[:credentials][:token]
-      user.twitter_secret = data[:credentials][:secret]
-      #user.twitter_profile_image_url = 
-      #  tweet.user.profile_image_url.to_s
-      user.save!
     end
+    user.twitter_token = data[:credentials][:token]
+    user.twitter_secret = data[:credentials][:secret]
+    user.twitter_profile_image_url = data[:profile_image_url]
+    user.save!
+
     sign_in(user)
     redirect_to '/'
   end

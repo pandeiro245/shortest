@@ -6,6 +6,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  scope :random, -> {
+    order("RAND()")
+  }
+
   def email_required?
     false
   end
@@ -44,7 +48,11 @@ class User < ActiveRecord::Base
     %w(id profile_image_url).each do |key|
       next if user.send("twitter_#{key}")
       key2 = key == 'id' ? user.twitter_screen_name : user.twitter_id
-      user.send("twitter_#{key}=", Tweet.client.user_timeline(key2).first.user.send(key) )
+      begin
+        user.send("twitter_#{key}=", Tweet.client.user_timeline(key2).first.user.send(key) )
+      rescue
+
+      end
       user.save!
     end
     user

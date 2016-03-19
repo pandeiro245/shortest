@@ -9,7 +9,7 @@ class Tweet < ActiveRecord::Base
   end
 
   def self.client user = nil
-    user ||= User.actives.first
+    user ||= User.actives.random.first
     ::Twitter::REST::Client.new do |config|
       config.consumer_key    = ENV['TWITTER_KEY']
       config.consumer_secret = ENV['TWITTER_SECRET']
@@ -65,9 +65,9 @@ class Tweet < ActiveRecord::Base
     tweet2.twitter_id = tweet.user.id
     tweet2.text = tweet.text
 
-    tweet.text.scan(/@([A-Za-z0-9_]+)/){|text_all|
-      User.ts($1)
-    }
+    #tweet.text.scan(/@([A-Za-z0-9_]+)/){|text_all|
+    #  User.ts($1)
+    #}
 
     tweet2.in_reply_to_status_id = tweet.in_reply_to_status_id
     tweet2.favorite_count = tweet.favorite_count
@@ -81,9 +81,9 @@ class Tweet < ActiveRecord::Base
       Tweet.delete_all
       User.delete_all
     end
-    User.actives.each do |user|
-      user.sync_home
-    end
+    user = User.actives.random.first
+    puts "user.id is #{user.id}"
+    user.sync_home
     sleep 60
     self.sync
   end
