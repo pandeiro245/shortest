@@ -1,2 +1,5 @@
-- @user.tweets.each do |tweet|
-  = render partial: 'shared/tweet', locals: {tweet: tweet}
+=image_tag @user.twitter_profile_image_url
+
+#tweets
+  - @user.tweets.each do |tweet|
+    = render partial: 'shared/tweet', locals: {tweet: tweet}

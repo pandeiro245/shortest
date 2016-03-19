@@ -4,6 +4,7 @@ h1=@word.title
 p=@word.wp.html_safe
 
 hr
-- @word.tweets.each do |tweet|
-  = render partial: 'shared/tweet', locals: {tweet: tweet}
+#tweets
+  - @word.tweets.each do |tweet|
+    = render partial: 'shared/tweet', locals: {tweet: tweet}
 hr

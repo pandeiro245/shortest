@@ -1,10 +1,12 @@
 require 'open-uri'
 class Word < ActiveRecord::Base
-  def tweets
-    res = Tweet.where("text like ?", "%#{title}%").order('retweet_count desc, favorite_count desc')
-    if res.blank?
+  def tweets refresh=false
+    res = Tweet.where("text like ?", "%#{title}%").order('retweet_count desc, favorite_count desc').limit(30)
+    #if res.blank?
+    #if refresh
+    if false
       Tweet.sync_word nil, title, 'recent'
-      res = Tweet.where("text like ?", "%#{title}%").order('retweet_count desc, favorite_count desc')
+      res = Tweet.where("text like ?", "%#{title}%").order('retweet_count desc, favorite_count desc').limit(30)
     end
     res
   end

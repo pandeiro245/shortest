@@ -3,8 +3,9 @@ class TwittersController < ApplicationController
     @user = User.find_or_create_by(
       twitter_screen_name: params[:id]
     )
+    @user.sync unless @user.twitter_id
     if params[:refresh] || @user.tweets.blank? || @user.tweets.count < 20
-      Tweet.sync_user nil, params[:id]
+      #Tweet.sync_user nil, params[:id]
       @user.reload
     end
   end

@@ -58,12 +58,16 @@ class User < ActiveRecord::Base
     user
   end
 
+  def sync
+    key2 = key == 'id' ? self.twitter_screen_name : self.twitter_id
+    self.send("twitter_#{key}=", Tweet.client.user_timeline(key2).first.user.send(key) )
+    self.save!
+  end
+
   def self.sync
     %w(id screen_name profile_image_url).each do |key|
       User.where("twitter_#{key}" => nil).each do |user|
-        key2 = key == 'id' ? user.twitter_screen_name : user.twitter_id
-        user.send("twitter_#{key}=", Tweet.client.user_timeline(key2).first.user.send(key) )
-        user.save!
+        user.sync
       end
     end
     sleep 60 * 10
