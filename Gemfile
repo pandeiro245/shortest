@@ -45,3 +45,8 @@ group :development do
   gem 'spring'
 end
 
+gem 'twitter'
+gem 'omniauth-twitter'
+gem 'devise'
+gem 'slim-rails'
+
