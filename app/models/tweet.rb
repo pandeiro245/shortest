@@ -2,7 +2,10 @@ class Tweet < ActiveRecord::Base
   attr_accessor :client
   #belongs_to :user, class_name: 'User', foreign_key: 'twitter_id'
   def user
-    User.find_by(twitter_id: self.twitter_id)
+    User.find_or_create_by(
+      email: "tw-#{self.twitter_id}@245cloud.com",
+      twitter_id: self.twitter_id
+    )
   end
 
   def self.client user = nil
@@ -24,16 +27,18 @@ class Tweet < ActiveRecord::Base
   end
 
   def self.sync_user user, screen_name
-    self.client(user).user_timeline(screen_name).each do |tweet|
+    tweets = self.client(user).user_timeline(screen_name)
+    tweets.each do |tweet|
       self.import(tweet)
     end
+    tweets
   end
 
   def self.import tweet
     user = User.find_or_create_by(
-      twitter_id: tweet.user.id,
       email: "tw-#{tweet.user.id}@245cloud.com"
     )
+    user.twitter_id = tweet.user.id
     user.twitter_profile_image_url = 
       tweet.user.profile_image_url.to_s
     user.twitter_screen_name = tweet.user.screen_name
