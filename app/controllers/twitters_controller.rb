@@ -4,9 +4,11 @@ class TwittersController < ApplicationController
       twitter_screen_name: params[:id]
     )
     @user.sync unless @user.twitter_id
-    if params[:refresh] || @user.tweets.blank? || @user.tweets.count < 20
-      #Tweet.sync_user nil, params[:id]
+
+    if params[:format] && params[:refresh] || @user.tweets.blank? || @user.tweets.count < 20
+      Tweet.sync_user nil, params[:id]
       @user.reload
+      render json: @user.tweets
     end
   end
 end
