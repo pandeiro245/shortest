@@ -1,7 +1,5 @@
 - if current_user
-  - current_user.tweets.each do |tweet|
-    div
-      = image_tag tweet.user.twitter_profile_image_url
-      = tweet.text
+  - current_user.home.each do |tweet|
+    = render partial: 'shared/tweet', locals: {tweet: tweet}
 - else
   = link_to 'Twitter login', '/auth/twitter'

@@ -5,7 +5,8 @@ class Tweet < ActiveRecord::Base
     User.find_by(twitter_id: self.twitter_id)
   end
 
-  def self.client user
+  def self.client user = nil
+    user ||= User.actives.first
     ::Twitter::REST::Client.new do |config|
       config.consumer_key    = ENV['TWITTER_KEY']
       config.consumer_secret = ENV['TWITTER_SECRET']
@@ -17,28 +18,33 @@ class Tweet < ActiveRecord::Base
   end
 
   def self.sync_home user
-    #self.client(user).user_timeline('pandeiro245').each do |tweet|
     self.client(user).home_timeline.each do |tweet|
-      user = User.find_or_create_by(
-        twitter_id: tweet.user.id,
-        email: "tw-#{tweet.user.id}@245cloud.com"
-      )
-      puts user.inspect
-      puts "tweet_id is #{tweet.id}"
-      puts tweet.user.id
-
-      user.twitter_profile_image_url = 
-        tweet.user.profile_image_url.to_s
-
-      user.save!
-      tweet2 = Tweet.find_or_initialize_by(
-        id: tweet.id,
-      )
-      puts tweet2.inspect
-      tweet2.twitter_id = tweet.user.id
-      tweet2.text = tweet.text
-      tweet2.save!
+      self.import(tweet)
     end
+  end
+
+  def self.sync_user user, screen_name
+    self.client(user).user_timeline(screen_name).each do |tweet|
+      self.import(tweet)
+    end
+  end
+
+  def self.import tweet
+    user = User.find_or_create_by(
+      twitter_id: tweet.user.id,
+      email: "tw-#{tweet.user.id}@245cloud.com"
+    )
+    user.twitter_profile_image_url = 
+      tweet.user.profile_image_url.to_s
+    user.twitter_screen_name = tweet.user.screen_name
+
+    user.save!
+    tweet2 = Tweet.find_or_initialize_by(
+      id: tweet.id,
+    )
+    tweet2.twitter_id = tweet.user.id
+    tweet2.text = tweet.text
+    tweet2.save!
   end
 
   def self.sync refresh=false

@@ -14,8 +14,12 @@ class User < ActiveRecord::Base
     false
   end
 
-  def tweets
+  def home
     Tweet.order('id desc').limit(30)
+  end
+
+  def tweets
+    Tweet.where(twitter_id: twitter_id).order('id desc').limit(30)
   end
 
   def sync_home
@@ -24,6 +28,13 @@ class User < ActiveRecord::Base
 
   def self.actives
     User.where.not(twitter_token: nil)
+  end
+
+  def self.sync_twitter_screen_name
+    User.where(twitter_screen_name: nil).each do |user|
+      user.twitter_screen_name = Tweet.client.user_timeline(user.twitter_id).first.user.screen_name
+      user.save!
+    end
   end
 end
 

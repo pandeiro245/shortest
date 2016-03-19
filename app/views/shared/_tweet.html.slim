@@ -1,0 +1,7 @@
+div
+  = link_to (image_tag tweet.user.twitter_profile_image_url), "/twitters/#{tweet.user.twitter_screen_name}"
+  /= tweet.text.gsub(/(@[a-z_]*)/, "hoge#{$1}fuga")
+  = tweet.text.gsub(/@([a-z_]*)/, "<a href='/twitters/#{$1}'>@#{$1}</a>").html_safe
+  /= tweet.text
+
+

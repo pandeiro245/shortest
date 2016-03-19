@@ -1,4 +1,2 @@
-h1=@word.title
-- @word.tweets.each do |tweet|
+- @user.tweets.each do |tweet|
   = render partial: 'shared/tweet', locals: {tweet: tweet}
-
