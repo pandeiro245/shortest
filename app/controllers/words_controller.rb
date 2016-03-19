@@ -1,6 +1,10 @@
 class WordsController < ApplicationController
   def index
-    render json: Word.select(:title).pluck(:title)
+    if title = params[:title]
+      redirect_to "/words/#{URI.encode(title)}"
+    else
+      render json: Word.select(:title).pluck(:title)
+    end
   end
 
   def show

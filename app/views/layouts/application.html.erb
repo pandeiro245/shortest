@@ -11,6 +11,8 @@
   <%= link_to 'home', :root %>
   (<%= Tweet.count %>tweets
   & <%= Word.count %>words)
+  <form method='GET' action='/words'>
+  <input name='title'>
 <hr>
 <div id='content'>
 <%= yield %>
