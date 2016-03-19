@@ -1,7 +1,7 @@
 require 'open-uri'
 class Word < ActiveRecord::Base
   def tweets
-    Tweet.where("text like ?", "%#{title}%")
+    Tweet.where("text like ?", "%#{title}%").order('retweet_count desc, favorite_count desc')
   end
 
   def wp

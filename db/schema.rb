@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160319052221) do
+ActiveRecord::Schema.define(version: 20160319113102) do
 
   create_table "knowledges", force: :cascade do |t|
     t.integer  "word_id",    limit: 4
@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(version: 20160319052221) do
     t.boolean  "mecabed",                           default: false
     t.datetime "created_at",                                        null: false
     t.datetime "updated_at",                                        null: false
+    t.integer  "favorite_count",        limit: 4
+    t.integer  "retweet_count",         limit: 4
   end
 
   create_table "users", force: :cascade do |t|

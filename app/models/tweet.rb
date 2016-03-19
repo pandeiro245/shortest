@@ -31,11 +31,6 @@ class Tweet < ActiveRecord::Base
     tweets.each do |tweet|
       self.import(tweet)
     end
-    user = User.find_or_create_by(
-      twitter_screen_name: screen_name
-    )
-    key = 'screen_name'
-    user.send("twitter_#{key}=", Tweet.client.user_timeline(key).first.user.send(key) )
     tweets
   end
 
@@ -43,6 +38,14 @@ class Tweet < ActiveRecord::Base
     tweet = self.client(user).status(tweet_id)
     tweet = self.import(tweet)
     tweet
+  end
+
+  def self.sync_word user, title
+    tweets = self.client(user).search(title, result_type: 'popular')
+    tweets.each do |tweet|
+      self.import(tweet)
+    end
+    tweets
   end
 
   def self.import tweet
@@ -61,6 +64,8 @@ class Tweet < ActiveRecord::Base
     tweet2.twitter_id = tweet.user.id
     tweet2.text = tweet.text
     tweet2.in_reply_to_status_id = tweet.in_reply_to_status_id
+    tweet2.favorite_count = tweet.favorite_count
+    tweet2.retweet_count= tweet.retweet_count
     tweet2.save!
     tweet2
   end
