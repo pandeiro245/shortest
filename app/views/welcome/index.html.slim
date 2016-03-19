@@ -1,5 +1,7 @@
 - if current_user
   - current_user.tweets.each do |tweet|
-    div=tweet.inspect
+    div
+      = image_tag tweet.user.profile_image_url.to_s
+      = tweet.text
 - else
   = link_to 'Twitter login', '/auth/twitter'

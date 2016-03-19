@@ -49,4 +49,5 @@ gem 'twitter'
 gem 'omniauth-twitter'
 gem 'devise'
 gem 'slim-rails'
+gem 'dotenv-rails'
 
