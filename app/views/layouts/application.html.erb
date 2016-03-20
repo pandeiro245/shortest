@@ -8,12 +8,14 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <% if current_user %>
   <%= link_to 'home', :root %>
   (<%= Tweet.count %>tweets
   & <%= Word.count %>words)
   <form method='GET' action='/words'>
   <input name='title'>
-<hr>
+  <hr>
+  <% end %>
 <div id='content'>
 <%= yield %>
 </div>
