@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160319113102) do
+ActiveRecord::Schema.define(version: 20160320034423) do
 
   create_table "knowledges", force: :cascade do |t|
     t.integer  "word_id",    limit: 4
@@ -52,6 +52,10 @@ ActiveRecord::Schema.define(version: 20160319113102) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",           limit: 255
     t.string   "last_sign_in_ip",              limit: 255
+    t.integer  "instagram_id",                 limit: 4
+    t.string   "instagram_token",              limit: 255
+    t.string   "instagram_image",              limit: 255
+    t.string   "instagram_nickname",           limit: 255
   end
 
   create_table "words", force: :cascade do |t|

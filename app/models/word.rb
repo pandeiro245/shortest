@@ -1,5 +1,16 @@
 require 'open-uri'
 class Word < ActiveRecord::Base
+
+  def self.sync
+    self.order('created_at desc').each do |word|
+      user = User.actives.random.first
+      Tweet.sync_word(user, word.title)
+      Tweet.sync_word(user, word.title, 'recent')
+      sleep 5
+    end
+    self.update
+  end
+
   def tweets refresh=false
     res = Tweet.where("text like ?", "%#{title}%").order('retweet_count desc, favorite_count desc').limit(30)
     #if res.blank?

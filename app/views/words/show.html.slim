@@ -3,6 +3,9 @@ h1=@word.title
 =image_tag @word.wp_img
 p=@word.wp.html_safe
 
+=link_to 'more(wikipedia)', "https://en.wikipedia.org/wiki/#{@word.title}", {target: '_blank'}
+hr
+=link_to 'search with Google', "https://www.google.co.jp/?q=#{@word.title}", {target: '_blank'}
 hr
 #tweets
   - @word.tweets.each do |tweet|
