@@ -13,7 +13,7 @@ class Word < ActiveRecord::Base
 
   def wp
     html = wikipedia || fetch_wikipedia
-    Nokogiri::HTML.parse(html).search('#mw-content-text p:first').to_s.gsub(/href="\/wiki/, 'href="/words')
+    Nokogiri::HTML.parse(html).search('#mw-content-text p:first').to_s.gsub(/href="\/wiki/, 'href="/words').gsub(/http:\/\/[a-z]*.wikipedia.org\/wiki/, '/words')
   end
 
   def wp_img

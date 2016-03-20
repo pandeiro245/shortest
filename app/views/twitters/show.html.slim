@@ -1,5 +1,7 @@
-=image_tag @user.twitter_profile_image_url
+/=image_tag @user.twitter_profile_image_url
+/hr
 
 #tweets
   - @user.tweets.each do |tweet|
+    - next unless tweet.text
     = render partial: 'shared/tweet', locals: {tweet: tweet}
