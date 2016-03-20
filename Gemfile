@@ -44,6 +44,7 @@ end
 
 gem 'twitter'
 gem 'omniauth-twitter'
+gem 'omniauth-instagram'
 gem 'devise'
 gem 'slim-rails'
 gem 'dotenv-rails'
