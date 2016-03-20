@@ -8,9 +8,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <h1>
+  <%= link_to 'Shortest', :root %>
+  </h1>
+  <%= link_to 'what\'s this?', 'https://ruffnote.com/pandeiro245/shortest', {target: '_blank'} %>
   <% if current_user %>
-  <%= link_to 'home', :root %>
-  (<%= Tweet.count %>tweets
+  (<%= number_to_currency(Tweet.count) %>tweets
   & <%= Word.count %>words)
   <form method='GET' action='/words'>
   <input name='title'>

@@ -1,8 +1,8 @@
-div
-  = link_to (image_tag tweet.user.twitter_profile_image_url), "/twitters/#{tweet.user.twitter_screen_name}"
+div style='float:left; width: 200px; margin: 10x;'
+  = link_to (image_tag tweet.user.twitter_profile_image_url, {style: 'border-radius: 20px;'}), "/twitters/#{tweet.user.twitter_screen_name}"
   = link_to '<i class="fa fa-arrow-right"></i>'.html_safe, "/tweets/#{tweet.in_reply_to_status_id}" if tweet.in_reply_to_status_id
   - text = tweet.text
   - text = parse_http(text)
   = text.gsub(/@([A-Za-z0-9_]+)/){|text_all| "<a href='/twitters/#{$1}'/><img src=\"#{User.ts($1).twitter_profile_image_url}\" /></a>"}.html_safe
-  = link_to tweet.created_at.strftime("%Y-%m-%d"), "https://twitter.com/#{tweet.user.twitter_screen_name}/status/#{tweet.id}", {target: '_blank'}
+  = link_to tweet.created_at.strftime("%Y-%m-%d"), "https://twitter.com/#{tweet.user.twitter_screen_name}/status/#{tweet.id}", {target: '_blank', style: 'color: #ccc; font-size:11px;'}
 
