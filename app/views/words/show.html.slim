@@ -1,0 +1,10 @@
+h1=@word.title
+
+=image_tag @word.wp_img
+p=@word.wp.html_safe
+
+hr
+#tweets
+  - @word.tweets.each do |tweet|
+    = render partial: 'shared/tweet', locals: {tweet: tweet}
+hr

@@ -1,0 +1,5 @@
+- if current_user
+  - @tweets.each do |tweet|
+    = render partial: 'shared/tweet', locals: {tweet: tweet}
+- else
+  = link_to 'Twitter login', '/auth/twitter'
