@@ -2,7 +2,7 @@ require 'open-uri'
 class Word < ActiveRecord::Base
 
   def self.sync
-    self.all.each do |word|
+    self.order('created_at desc').each do |word|
       user = User.actives.random.first
       Tweet.sync_word(user, word.title)
       Tweet.sync_word(user, word.title, 'recent')

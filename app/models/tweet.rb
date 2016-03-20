@@ -21,9 +21,11 @@ class Tweet < ActiveRecord::Base
   end
 
   def self.sync_home user
+    res = []
     self.client(user).home_timeline.each do |tweet|
-      self.import(tweet)
+      res.push(self.import(tweet))
     end
+    res
   end
 
   def self.sync_user user, screen_name
